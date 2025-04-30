@@ -1,192 +1,103 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
-<meta name="theme-color" content="#1e3a8a" />
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Calculadora de Nutrientes - Fertilizantes</title>
-  <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
-
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="default">
-  <meta name="apple-mobile-web-app-title" content="Nutrientes">
-  <link rel="apple-touch-icon" href="icon-192.png">
-
-  <!-- Manifesto do PWA -->
-  <link rel="manifest" href="manifest.json">
-  <meta name="theme-color" content="#004d66">
-  <link rel="icon" type="image/png" sizes="192x192" href="icon-192.png">
-
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Calculadora de Concentração</title>
   <style>
     body {
-      font-family: 'Roboto', sans-serif;
-      margin: 0;
-      padding: 0;
-      background: #f8f8f8;
-      color: #333;
-    }
-  
-    /* Outros estilos */
-    .container {
-  max-width: 600px;
-  margin: 0 auto;
-  padding: 20px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-    select {
-    width: 100%;
-    max-width: 700px; /* Ajusta a largura conforme necessário */
-}
-    .card {
-        background: #f0f8ff; /* Azul petróleo */
-        border-radius: 8px;
-        padding: 20px;
-        margin-bottom: 20px;
-        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    }
-    h1 {
-      text-align: center; /* Centraliza o título */
-      font-size: 23px;
-      color: #004d66; /* Cor azul do tema */
-    }
-    .card h2 {
-     text-align: center;
-    }  
-    .resultado {
-        margin-top: 10px;
-        font-size: 1.2em;
-    }
-    input, select, button {
-        width: 100%;
-        padding: 10px;
-        margin: 8px 0;
-        border-radius: 5px;
-        border: 1px solid #ddd;
-    }
-    input {
-  box-sizing: border-box;
+      font-family: Arial, sans-serif;
+      background-color: #f4f4f4;
+      padding: 20px;
     }
 
-input:focus {
-  outline: none;
-  box-shadow: none;
-}
-    button {
-        background-color: #1e3a8a;
-        color: white;
-        cursor: pointer;
+    .container {
+      background-color: #fff;
+      border-radius: 10px;
+      padding: 20px;
+      max-width: 500px;
+      margin: auto;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     }
+
+    h1 {
+      text-align: center;
+    }
+
+    label {
+      display: block;
+      margin-top: 15px;
+    }
+
+    input[type="number"] {
+      width: 100%;
+      padding: 8px;
+      margin-top: 5px;
+      box-sizing: border-box;
+    }
+
+    button {
+      display: block;
+      width: 100%;
+      padding: 10px;
+      margin-top: 20px;
+      background-color: #007BFF;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+
     button:hover {
-        background-color: #003366;
+      background-color: #0056b3;
+    }
+
+    .resultado {
+      text-align: center;
+      margin-top: 20px;
+      font-size: 18px;
+      font-weight: bold;
     }
   </style>
-
-  <script>
-    if ('serviceWorker' in navigator) {
-      navigator.serviceWorker.register('service-worker.js')
-        .then(() => console.log('Service Worker registrado com sucesso.'))
-        .catch((error) => console.log('Falha ao registrar SW:', error));
-    }
-  </script>
 </head>
 <body>
-  <h1>Calculadora de Nutrientes</h1>
   <div class="container">
-    <div class="card">
-      <h2>ENTRADAS</h2>
-      <label for="sal">Sal:</label>
-      <select id="sal">
-        <option value="nitratoMagnesio">Nitrato de Magnésio Hexahidratado</option>
-        <option value="fosfatoMonopotassico">Fosfato Monopotássico</option>
-        <option value="sulfatoPotassio">Sulfato de Potássio Anidro</option>
-        <option value="sulfatoMagnesio">Sulfato de Magnésio Anidro</option>
-      </select>
+    <h1>Calculadora de Concentração de Nutrientes</h1>
+    <label for="massaMg">Massa do sal (g):</label>
+    <input type="number" id="massaMg" step="any" />
 
-      <label for="quantidadeSal">Quantidade de sal (g):</label>
-      <input type="number" id="quantidadeSal" step="0.01" min="0" max="99.99">
+    <label for="volume">Volume da solução (L):</label>
+    <input type="number" id="volume" step="any" />
 
-      <label for="volumeSolucaoMae">Volume da solução-mãe (L):</label>
-      <input type="number" id="volumeSolucaoMae" step="0.01" min="0" max="99.99">
+    <label for="pureza">Pureza do sal (%):</label>
+    <input type="number" id="pureza" step="any" />
 
-      <label for="doseUtilizada">Dose utilizada (mL):</label>
-      <input type="number" id="doseUtilizada" step="0.01" min="0" max="99.99">
+    <label for="massaMolar">Massa molar do sal (g/mol):</label>
+    <input type="number" id="massaMolar" step="any" />
 
-      <label for="volumeAquario">Volume do aquário (L):</label>
-      <input type="number" id="volumeAquario" step="0.01" min="0" max="999.99">
+    <label for="multiplicador">Multiplicador da fração molar do nutriente:</label>
+    <input type="number" id="multiplicador" step="any" />
 
-      <button id="btnCalcular" type="button">Calcular</button>
-    </div>
+    <button onclick="calcularConcentracao()">Calcular</button>
 
-    <div class="card">
-      <h2>RESULTADOS</h2>
-      <div class="resultado">NO₃⁻: <span id="resultadoNO3">0.000</span> mg/L</div>
-      <div class="resultado">N: <span id="resultadoN">0.000</span> mg/L</div>
-      <div class="resultado">PO₄³⁻: <span id="resultadoPO4">0.000</span> mg/L</div>
-      <div class="resultado">P: <span id="resultadoP">0.000</span> mg/L</div>
-      <div class="resultado">K: <span id="resultadoK">0.000</span> mg/L</div>
-      <div class="resultado">SO₄²⁻: <span id="resultadoSO4">0.000</span> mg/L</div>
-      <div class="resultado">S: <span id="resultadoS">0.000</span> mg/L</div>
-      <div class="resultado">Mg: <span id="resultadoMg">0.000</span> mg/L</div>
-    </div>
+    <div class="resultado">Mg: <span id="resultadoMg">0.000</span> mg/L</div>
   </div>
 
   <script>
-    document.getElementById('btnCalcular').addEventListener('click', calcularResultados);
+    function calcularConcentracao() {
+      const massaMg = parseFloat(document.getElementById('massaMg').value);
+      const volume = parseFloat(document.getElementById('volume').value);
+      const pureza = parseFloat(document.getElementById('pureza').value);
+      const massaMolar = parseFloat(document.getElementById('massaMolar').value);
+      const multiplicador = parseFloat(document.getElementById('multiplicador').value);
 
-    function calcularResultados() {
-      const sal = document.getElementById('sal').value;
-      const quantidadeSal = parseFloat(document.getElementById('quantidadeSal').value);
-      const volumeSolucaoMae = parseFloat(document.getElementById('volumeSolucaoMae').value);
-      const doseUtilizada = parseFloat(document.getElementById('doseUtilizada').value);
-      const volumeAquario = parseFloat(document.getElementById('volumeAquario').value);
+      const massaCorrigida = massaMg * (pureza / 100);
+      const moles = massaCorrigida / massaMolar;
+      const concentracao = (moles * multiplicador * 1000) / volume;
 
-      if (isNaN(quantidadeSal) || isNaN(volumeSolucaoMae) || isNaN(doseUtilizada) || isNaN(volumeAquario) ||
-          quantidadeSal <= 0 || volumeSolucaoMae <= 0 || doseUtilizada <= 0 || volumeAquario <= 0) {
-        alert('Preencha todos os campos corretamente.');
-        return;
-      }
-
-      const pesosMolares = {
-        nitratoMagnesio: 256.407,
-        fosfatoMonopotassico: 136.086,
-        sulfatoPotassio: 174.260,
-        sulfatoMagnesio: 120.366
-      };
-      const massasElementos = { N: 14.007, P: 30.974, K: 39.098, S: 32.065, Mg: 24.305 };
-
-      let resultadoNO3 = 0, resultadoN = 0, resultadoPO4 = 0, resultadoP = 0, resultadoK = 0, resultadoSO4 = 0, resultadoS = 0, resultadoMg = 0;
-      const mols = quantidadeSal / pesosMolares[sal];
-      const molsDosados = mols * (doseUtilizada / (volumeSolucaoMae * 1000));
-      const molsPorLitro = molsDosados / volumeAquario;
-
-      if (sal === 'nitratoMagnesio') {
-        resultadoNO3 = molsPorLitro * 62.004 * 2 * 1000;
-        resultadoN    = molsPorLitro * massasElementos.N * 1000;
-        resultadoMg   = molsPorLitro * massasElementos.Mg * 1000;
-      } else if (sal === 'fosfatoMonopotassico') {
-        resultadoPO4 = molsPorLitro * 94.971 * 1000;
-        resultadoP   = molsPorLitro * massasElementos.P * 1000;
-        resultadoK   = molsPorLitro * massasElementos.K * 1000;
-      } else if (sal === 'sulfatoPotassio') {
-        resultadoK   = molsPorLitro * massasElementos.K * 2 * 1000;
-        resultadoSO4 = molsPorLitro * 96.057 * 1000;
-        resultadoS   = molsPorLitro * massasElementos.S * 1000;
-      } else if (sal === 'sulfatoMagnesio') {
-        resultadoMg  = molsPorLitro * massasElementos.Mg * 1000;
-        resultadoSO4 = molsPorLitro * 96.057 * 1000;
-        resultadoS   = molsPorLitro * massasElementos.S * 1000;
-      }
-
-      document.getElementById('resultadoNO3').textContent = resultadoNO3.toFixed(3);
-      document.getElementById('resultadoN').textContent   = resultadoN.toFixed(3);
-      document.getElementById('resultadoPO4').textContent = resultadoPO4.toFixed(3);
-      document.getElementById('resultadoP').textContent   = resultadoP.toFixed(3);
-      document.getElementById('resultadoK').textContent   = resultadoK.toFixed(3);
-      document.getElementById('resultadoSO4').textContent = resultadoSO4.toFixed(3);
-      document.getElementById('resultadoS').textContent   = resultadoS.toFixed(3);
-      document.getElementById('resultadoMg').textContent  = resultadoMg.toFixed(3);
+      const resultadoMg = concentracao;
+      document.getElementById('resultadoMg').textContent = resultadoMg.toFixed(3);
     }
   </script>
 </body>
