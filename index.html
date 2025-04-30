@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<meta name="theme-color" content="#1e3a8a" />
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Calculadora de Nutrientes - Fertilizantes</title>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
+
+  <!-- Manifesto do PWA -->
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#004d66">
+  <link rel="icon" type="image/png" sizes="192x192" href="icon-192.png">
+
+  <style>
+    body {
+      font-family: 'Roboto', sans-serif;
+      margin: 0;
+      padding: 0;
+      background: #f8f8f8;
+      color: #333;
+    }
+    /* Outros estilos */
+  </style>
+
+  <script>
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('service-worker.js')
+        .then(() => console.log('Service Worker registrado com sucesso.'))
+        .catch((error) => console.log('Falha ao registrar SW:', error));
+    }
+  </script>
+</head>
+<body>
+    <h1>Calculadora de Nutrientes</h1>
+    <div class="container">
+        <div class="card">
+            <h2>ENTRADAS</h2>
+            <label for="sal">Sal:</label>
+            <select id="sal">
+                <option value="nitratoMagnesio">Nitrato de Magnésio Hexahidratado</option>
+                <option value="fosfatoMonopotassico">Fosfato Monopotássico</option>
+                <option value="sulfatoPotassio">Sulfato de Potássio Anidro</option>
+                <option value="sulfatoMagnesio">Sulfato de Magnésio Anidro</option>
+            </select>
+
+            <label for="quantidadeSal">Quantidade de sal (g):</label>
+            <input type="number" id="quantidadeSal" step="0.01" min="0" max="99.99">
+
+            <label for="volumeSolucaoMae">Volume da solução-mãe (L):</label>
+            <input type="number" id="volumeSolucaoMae" step="0.01" min="0" max="99.99">
+
+            <label for="doseUtilizada">Dose utilizada (mL):</label>
+            <input type="number" id="doseUtilizada" step="0.01" min="0" max="99.99">
+
+            <label for="volumeAquario">Volume do aquário (L):</label>
+            <input type="number" id="volumeAquario" step="0.01" min="0" max="999.99">
+
+            <button type="button" onclick="calcularResultados()">Calcular</button>
+        </div>
+
+        <div class="card" id="resultadosCard">
+            <h2>RESULTADOS</h2>
+            <div class="resultado">NO₃⁻: <span id="resultadoNO3">0.000</span> mg/L</div>
+            <div class="resultado">N: <span id="resultadoN">0.000</span> mg/L</div>
+            <div class="resultado">PO₄³⁻: <span id="resultadoPO4">0.000</span> mg/L</div>
+            <div class="resultado">P: <span id="resultadoP">0.000</span> mg/L</div>
+            <div class="resultado">K: <span id="resultadoK">0.000</span> mg/L</div>
+            <div class="resultado">SO₄²⁻: <span id="resultadoSO4">0.000</span> mg/L</div>
+            <div class="resultado">S: <span id="resultadoS">0.000</span> mg/L</div>
+            <div class="resultado">Mg: <span id="resultadoMg">0.000</span> mg/L</div>
+        </div>
+    </div>
+
+<script>
+function calcularResultados() {
+    const sal = document.getElementById("sal").value;
+    const quantidadeSal = parseFloat(document.getElementById("quantidadeSal").value) || 0;
+    const volumeSolucaoMae = parseFloat(document.getElementById("volumeSolucaoMae").value) || 0;
+    const doseUtilizada = parseFloat(document.getElementById("doseUtilizada").value) || 0;
+    const volumeAquario = parseFloat(document.getElementById("volumeAquario").value) || 0;
+
+    const pesosMolares = {
+        nitratoMagnesio: 256.407,
+        fosfatoMonopotassico: 136.086,
+        sulfatoPotassio: 174.260,
+        sulfatoMagnesio: 120.366
+    };
+
+    const massasElementos = { N: 14.007, P: 30.974, K: 39.098, S: 32.065, Mg: 24.305 };
+
+    let resultadoNO3 = 0,
+        resultadoN = 0,
+        resultadoPO4 = 0,
+        resultadoP = 0,
+        resultadoK = 0,
+        resultadoSO4 = 0,
+        resultadoS = 0,
+        resultadoMg = 0;
+
+    if (sal === "nitratoMagnesio") {
+        const mols = quantidadeSal / pesosMolares["nitratoMagnesio"];
+        const molsDosados = mols * (doseUtilizada / (volumeSolucaoMae * 1000));
+        const molsPorLitro = molsDosados / volumeAquario;
+        resultadoNO3 = molsPorLitro * 62.004 * 2 * 1000;
+        resultadoN = molsPorLitro * massasElementos.N * 1000;
+        resultadoMg = molsPorLitro * massasElementos.Mg * 1000;
+    } else if (sal === "fosfatoMonopotassico") {
+        const mols = quantidadeSal / pesosMolares["fosfatoMonopotassico"];
+        const molsDosados = mols * (doseUtilizada / (volumeSolucaoMae * 1000));
+        const molsPorLitro = molsDosados / volumeAquario;
+        resultadoPO4 = molsPorLitro * 94.971 * 1000;
+        resultadoP = molsPorLitro * massasElementos.P * 1000;
+        resultadoK = molsPorLitro * massasElementos.K * 1000;
+    } else if (sal === "sulfatoPotassio") {
+        const mols = quantidadeSal / pesosMolares["sulfatoPotassio"];
+        const molsDosados = mols * (doseUtilizada / (volumeSolucaoMae * 1000));
+        const molsPorLitro = molsDosados / volumeAquario;
+        resultadoK = molsPorLitro * massasElementos.K * 2 * 1000;
+        resultadoSO4 = molsPorLitro * 96.057 * 1000;
+        resultadoS = molsPorLitro * massasElementos.S * 1000;
+    } else if (sal === "sulfatoMagnesio") {
+        const mols = quantidadeSal / pesosMolares["sulfatoMagnesio"];
+        const molsDosados = mols * (doseUtilizada / (volumeSolucaoMae * 1000));
+        const molsPorLitro = molsDosados / volumeAquario;
+        resultadoMg = molsPorLitro * massasElementos.Mg * 1000;
+        resultadoSO4 = molsPorLitro * 96.057 * 1000;
+        resultadoS = molsPorLitro * massasElementos.S * 1000;
+    }
+
+    document.getElementById("resultadoNO3").textContent = resultadoNO3.toFixed(3);
+    document.getElementById("resultadoN").textContent = resultadoN.toFixed(3);
+    document.getElementById("resultadoPO4").textContent = resultadoPO4.toFixed(3);
+    document.getElementById("resultadoP").textContent = resultadoP.toFixed(3);
+    document.getElementById("resultadoK").textContent = resultadoK.toFixed(3);
+    document.getElementById("resultadoSO4").textContent = resultadoSO4.toFixed(3);
+    document.getElementById("resultadoS").textContent = resultadoS.toFixed(3);
+    document.getElementById("resultadoMg").textContent = resultadoMg.toFixed(3);
+
+    document.getElementById("resultadosCard").style.display = "block";
+}
+</script>
+
+</body>
+</html>

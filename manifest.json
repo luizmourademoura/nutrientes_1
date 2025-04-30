@@ -1,0 +1,21 @@
+{
+  "name": "Calculadora de Nutrientes - Flourap",
+  "short_name": "FertCalc",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#e6f7ff",
+  "theme_color": "#004d66",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "icon-192.png",
+      "type": "image/png",
+      "sizes": "192x192"
+    },
+    {
+      "src": "icon-512.png",
+      "type": "image/png",
+      "sizes": "512x512"
+    }
+  ]
+}
