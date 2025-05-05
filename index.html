@@ -7,10 +7,14 @@
   <title>Calculadora de Nutrientes - Fertilizantes</title>
   <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
 
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="default">
-  <meta name="apple-mobile-web-app-title" content="Nutrientes">
-  <link rel="apple-touch-icon" href="icon-192.png">
+<link rel="icon" type="image/png" sizes="32x32" href="icon_32x32.png">
+<link rel="icon" type="image/png" sizes="64x64" href="icon_64x64.png">
+<link rel="icon" type="image/png" sizes="128x128" href="icon_128x128.png">
+<link rel="icon" type="image/png" sizes="256x256" href="icon_256x256.png">
+<link rel="icon" type="image/png" sizes="512x512" href="icon_512x512.png">
+
+<!-- Ícone para dispositivos Apple (iPhone/iPad) -->
+<link rel="apple-touch-icon" sizes="180x180" href="icon_180x180.png">
 
   <!-- Manifesto do PWA -->
   <link rel="manifest" href="manifest.json">
@@ -181,7 +185,6 @@ input:focus {
         resultadoSO4 = molsPorLitro * 96.057 * 1000;
         resultadoS   = molsPorLitro * massasElementos.S * 1000;
       }
-
       document.getElementById('resultadoNO3').textContent = resultadoNO3.toFixed(3);
       document.getElementById('resultadoN').textContent   = resultadoN.toFixed(3);
       document.getElementById('resultadoPO4').textContent = resultadoPO4.toFixed(3);
